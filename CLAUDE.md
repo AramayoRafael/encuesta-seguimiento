@@ -27,7 +27,7 @@ archivo resume todo lo decidido allí. Léelo completo antes de tocar código.
 - **Front:** un solo HTML, tema oscuro futurista (campo estelar en canvas, cuadrícula animada, tarjetas de vidrio con borde cónico giratorio, warp entre pantallas, confeti). Respeta `prefers-reduced-motion`. Probado a 390 px y 1366 px.
 - **Hosting:** GitHub Pages en `AramayoRafael/encuesta-seguimiento` (público, rama `main`, raíz) → https://aramayorafael.github.io/encuesta-seguimiento/ Vercel quedó como opción futura (enlaces de prueba, proxy para ocultar la URL del script); su plan Hobby es para uso no comercial.
 - **Backend:** Apps Script **ligado a la hoja de la base de estudiantes** (Google Sheet «Base de datos Estudiantes 1er semestre P2026», propiedad de la cuenta @unifranz de Rafael, pestaña de RR. HH. `Base_de_estudiantes`, ~23 000 filas, 13 columnas: sede, modalidad, anho_plan_estudio, carrera, semestre_pertenencia, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, ci, nacionalidad, correo_institucional, celular).
-- **URL del script:** se incrusta en `API_URL_DEFECTO` dentro de `src.html`. Hoy dice `PEGA_AQUI_LA_URL_EXEC` (pendiente). Sin URL la app corre en **modo de prueba** (acepta cualquier @unifranz con datos ficticios). `?api=<url>` en la dirección permite probar otra URL sin guardarla. Triple toque en «v2.0» (abajo a la derecha) o `?admin=1` abre el panel técnico (ping, fila de prueba, reenviar pendientes).
+- **URL del script:** se incrusta en `API_URL_DEFECTO` dentro de `src.html`. Ya incrustada (implementación `AKfycbxHT-22…MBT0`, 07-oct-2026). Sin URL la app corre en **modo de prueba** (acepta cualquier @unifranz con datos ficticios). `?api=<url>` en la dirección permite probar otra URL sin guardarla. Triple toque en «v2.0» (abajo a la derecha) o `?admin=1` abre el panel técnico (ping, fila de prueba, reenviar pendientes).
 
 ### Lecciones técnicas (vienen de la Ficha 360, no repetir errores)
 - GET por **JSONP** (`&callback=`). POST con `fetch` `text/plain` → si falla, `no-cors` + `action=verificar` (3 intentos) → plan C `action=guardar` por JSONP. Si todo falla, la respuesta queda en cola local (`encsi_cola1`) y se reenvía sola al volver a abrir.
@@ -71,9 +71,9 @@ Bienvenida («13 preguntas») → **Correo** (solo se pide `@unifranz.edu.bo`; s
 ## Estado y pendientes (al 07-oct-2026)
 - [x] Interfaz v2.0 aprobada por Rafael, salvo detalles que vaya pidiendo.
 - [x] Script v2.0 escrito y probado solo con hoja simulada.
-- [ ] Rafael: pegar el script en su hoja, ejecutar `configuracionInicial`, revisar CONFIG/CARRERAS, implementar y pasar la URL `/exec`.
+- [x] Script implementado; ping y validar responden de forma anónima.
 - [x] Repo GitHub creado y Pages activo (07-oct-2026).
-- [ ] Incrustar la URL en `src.html` → `python3 build.py` → commit + push (Pages se actualiza solo).
+- [x] URL incrustada y publicada (enlace `?v=2`).
 - [ ] Prueba real: ping, fila de prueba, ingreso con un correo real del padrón, anular y volver a responder, borrar pruebas.
 - [ ] Opcional: `clasp` para subir el script sin copiar y pegar; Vercel si se quiere ocultar la URL del script.
 
