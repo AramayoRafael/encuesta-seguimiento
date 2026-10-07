@@ -25,7 +25,7 @@ archivo resume todo lo decidido allí. Léelo completo antes de tocar código.
 
 ## Arquitectura
 - **Front:** un solo HTML, tema oscuro futurista (campo estelar en canvas, cuadrícula animada, tarjetas de vidrio con borde cónico giratorio, warp entre pantallas, confeti). Respeta `prefers-reduced-motion`. Probado a 390 px y 1366 px.
-- **Hosting previsto:** GitHub Pages, repo nuevo (no reutilizar el de Ficha360). Vercel quedó como opción futura (enlaces de prueba, proxy para ocultar la URL del script); su plan Hobby es para uso no comercial.
+- **Hosting:** GitHub Pages en `AramayoRafael/encuesta-seguimiento` (público, rama `main`, raíz) → https://aramayorafael.github.io/encuesta-seguimiento/ Vercel quedó como opción futura (enlaces de prueba, proxy para ocultar la URL del script); su plan Hobby es para uso no comercial.
 - **Backend:** Apps Script **ligado a la hoja de la base de estudiantes** (Google Sheet «Base de datos Estudiantes 1er semestre P2026», propiedad de la cuenta @unifranz de Rafael, pestaña de RR. HH. `Base_de_estudiantes`, ~23 000 filas, 13 columnas: sede, modalidad, anho_plan_estudio, carrera, semestre_pertenencia, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, ci, nacionalidad, correo_institucional, celular).
 - **URL del script:** se incrusta en `API_URL_DEFECTO` dentro de `src.html`. Hoy dice `PEGA_AQUI_LA_URL_EXEC` (pendiente). Sin URL la app corre en **modo de prueba** (acepta cualquier @unifranz con datos ficticios). `?api=<url>` en la dirección permite probar otra URL sin guardarla. Triple toque en «v2.0» (abajo a la derecha) o `?admin=1` abre el panel técnico (ping, fila de prueba, reenviar pendientes).
 
@@ -72,7 +72,8 @@ Bienvenida («13 preguntas») → **Correo** (solo se pide `@unifranz.edu.bo`; s
 - [x] Interfaz v2.0 aprobada por Rafael, salvo detalles que vaya pidiendo.
 - [x] Script v2.0 escrito y probado solo con hoja simulada.
 - [ ] Rafael: pegar el script en su hoja, ejecutar `configuracionInicial`, revisar CONFIG/CARRERAS, implementar y pasar la URL `/exec`.
-- [ ] Incrustar la URL en `src.html` → `python3 build.py` → publicar en GitHub Pages (repo nuevo).
+- [x] Repo GitHub creado y Pages activo (07-oct-2026).
+- [ ] Incrustar la URL en `src.html` → `python3 build.py` → commit + push (Pages se actualiza solo).
 - [ ] Prueba real: ping, fila de prueba, ingreso con un correo real del padrón, anular y volver a responder, borrar pruebas.
 - [ ] Opcional: `clasp` para subir el script sin copiar y pegar; Vercel si se quiere ocultar la URL del script.
 
