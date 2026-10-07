@@ -1,6 +1,7 @@
 // Prueba de humo del backend con una hoja de cálculo simulada (no necesita Google).
 // Uso: node tests/backend.test.js
 const fs=require('fs'),vm=require('vm');
+const SEP=process.env.SEP||',';   // SEP=";" node tests/backend.test.js  → hoja en español
 const code=fs.readFileSync(require('path').join(__dirname,'..','apps-script','Codigo.gs'),'utf8');
 function Sheet(name){this.name=name;this.d=[];this.formulas={};}
 Sheet.prototype={
@@ -24,6 +25,9 @@ Object.assign(Range.prototype,{
  setValues(v){v.forEach((row,i)=>row.forEach((x,j)=>this.sh.set(this.r+i,this.c+j,x)));return this},
  setValue(v){this.sh.set(this.r,this.c,v);return this},
  setFormula(f){this.sh.formulas[this.r+','+this.c]=f;return this},
+ clearContent(){delete this.sh.formulas[this.r+','+this.c];this.sh.set(this.r,this.c,'');return this},
+ // simula la configuración regional: solo «=SUM(2<sep>5)» con el separador de la hoja da 7
+ getValue(){const f=this.sh.formulas[this.r+','+this.c];return f==='=SUM(2'+SEP+'5)'?7:(f?'#ERROR!':this.sh.get(this.r,this.c))},
  getValues(){const o=[];for(let i=0;i<this.nr;i++){const row=[];for(let j=0;j<this.nc;j++)row.push(this.sh.get(this.r+i,this.c+j));o.push(row)}return o},
  getRow(){return this.r},
  createTextFinder(t){const self=this;let entire=false;return{matchEntireCell(x){entire=x;return this},findNext(){for(let i=0;i<self.nr;i++)for(let j=0;j<self.nc;j++){const v=String(self.sh.get(self.r+i,self.c+j)).toLowerCase(),q=String(t).toLowerCase();if(entire?v===q:v.includes(q))return new Range(self.sh,self.r+i,self.c+j,1,1)}return null}}}
@@ -31,7 +35,9 @@ Object.assign(Range.prototype,{
 const ss={_sheets:[],getSheetByName(n){return this._sheets.find(s=>s.name===n)||null},insertSheet(n,i){const s=new Sheet(n);if(i===0)this._sheets.unshift(s);else this._sheets.push(s);return s},getSheets(){return this._sheets},setSpreadsheetTimeZone(){},setActiveSheet(){}};
 const cache={};
 const ui={alert:(t,m)=>{console.log('[ALERT]',t,'|',String(m).replace(/\n/g,' / '));return 'YES'},prompt:(t,m)=>({getSelectedButton:()=> 'OK',getResponseText:()=>ctx.__answers.shift()}),ButtonSet:{OK:1,YES_NO:2,OK_CANCEL:3},Button:{YES:'YES',OK:'OK'},createMenu(){const m={addItem(){return m},addSeparator(){return m},addToUi(){}};return m}};
-const ctx={SpreadsheetApp:{getActive:()=>ss,getActiveSpreadsheet:()=>ss,getUi:()=>ui,newDataValidation:()=>({requireValueInList(){return this},build(){return{}}})},
+const props={};
+const ctx={PropertiesService:{getScriptProperties:()=>({getProperty:k=>props[k]||null,setProperty:(k,v)=>props[k]=v})},
+ SpreadsheetApp:{flush(){},getActive:()=>ss,getActiveSpreadsheet:()=>ss,getUi:()=>ui,newDataValidation:()=>({requireValueInList(){return this},build(){return{}}})},
  LockService:{getScriptLock:()=>({waitLock(){},releaseLock(){}})},CacheService:{getScriptCache:()=>({get:k=>cache[k]||null,put:(k,v)=>cache[k]=v,remove:k=>delete cache[k]})},
  Session:{getActiveUser:()=>({getEmail:()=>'rafael@unifranz.edu.bo'})},Utilities:{formatDate:(d)=>d.toISOString().slice(0,10)},
  ContentService:{createTextOutput:t=>({t,setMimeType(){return this}}),MimeType:{JSON:1,JAVASCRIPT:2}},Logger:{log:console.log},console,__answers:[]};

@@ -26,7 +26,7 @@ archivo resume todo lo decidido allí. Léelo completo antes de tocar código.
 ## Arquitectura
 - **Front:** un solo HTML, tema oscuro futurista (campo estelar en canvas, cuadrícula animada, tarjetas de vidrio con borde cónico giratorio, warp entre pantallas, confeti). Respeta `prefers-reduced-motion`. Probado a 390 px y 1366 px.
 - **Hosting:** GitHub Pages en `AramayoRafael/encuesta-seguimiento` (público, rama `main`, raíz) → https://aramayorafael.github.io/encuesta-seguimiento/ Vercel quedó como opción futura (enlaces de prueba, proxy para ocultar la URL del script); su plan Hobby es para uso no comercial.
-- **Backend:** Apps Script **ligado a la hoja de la base de estudiantes** (Google Sheet «Base de datos Estudiantes 1er semestre P2026», propiedad de la cuenta @unifranz de Rafael, pestaña de RR. HH. `Base_de_estudiantes`, ~23 000 filas, 13 columnas: sede, modalidad, anho_plan_estudio, carrera, semestre_pertenencia, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, ci, nacionalidad, correo_institucional, celular).
+- **Backend:** Apps Script **ligado a la hoja de la base de estudiantes**. La hoja en uso es «Copia de Base de datos Estudiantes 1er semestre P2026» (id `1RHwMM_N_dRKXilPvnS87j3fFdWV5_xPO1v3aEMOFqtk`), **propiedad de la cuenta personal aramayorafael@gmail.com** (la original es de la cuenta @unifranz; pestaña de RR. HH. `Base_de_estudiantes`, ~23 000 filas, 13 columnas: sede, modalidad, anho_plan_estudio, carrera, semestre_pertenencia, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, ci, nacionalidad, correo_institucional, celular).
 - **URL del script:** se incrusta en `API_URL_DEFECTO` dentro de `src.html`. Ya incrustada (implementación `AKfycbxHT-22…MBT0`, 07-oct-2026). Sin URL la app corre en **modo de prueba** (acepta cualquier @unifranz con datos ficticios). `?api=<url>` en la dirección permite probar otra URL sin guardarla. Triple toque en «v2.0» (abajo a la derecha) o `?admin=1` abre el panel técnico (ping, fila de prueba, reenviar pendientes).
 
 ### Lecciones técnicas (vienen de la Ficha 360, no repetir errores)
@@ -34,6 +34,7 @@ archivo resume todo lo decidido allí. Léelo completo antes de tocar código.
 - Errores definitivos del servidor (`ya_respondio`, `no_encontrado`, `no_habilitado`, `cerrada`) **no** se encolan.
 - Implementación: acceso **«Cualquier persona»** a secas. «Cualquier persona con cuenta de Google» rompe las llamadas anónimas. Como la hoja es de una cuenta Workspace, verificar que el dominio permita esa opción; si no, copiar la base a la cuenta personal de Rafael.
 - Para actualizar el script: **Administrar implementaciones → ✏️ → Nueva versión**. Nunca «Nueva implementación» (cambia la URL). Con clasp: `clasp push` + `clasp deploy -i <deploymentId>`.
+- La hoja está en configuración regional española: las fórmulas usan `;`. El script lo detecta solo (`sepFormulas_` prueba `=SUM(2,5)` y guarda `SEP` en las propiedades del script; `fx_` convierte). Toda fórmula nueva debe pasar por `fx_`. Prueba: `SEP=";" node tests/backend.test.js`.
 - No hay comparación de versiones app↔script (en la Ficha 360 causaba bucles de recarga).
 - GitHub Pages cachea: repartir el enlace con `?v=N` tras cada publicación.
 - Las respuestas guardan el **correo** del estudiante (decisión de Rafael), por eso la bienvenida dice «Confidencial», no «Anónima».

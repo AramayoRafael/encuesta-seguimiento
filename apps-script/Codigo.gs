@@ -255,6 +255,7 @@ function generarPadron_() {
   let sh = ss.getSheetByName(H.PADRON);
   if (!sh) sh = ss.insertSheet(H.PADRON);
   sh.clear();
+  sepFormulas_(sh);
   sh.getRange(1, 1, 1, CAB_PADRON.length).setValues([CAB_PADRON]).setFontWeight('bold').setBackground('#3a3a3a').setFontColor('#ffffff');
   salida.sort((x, y) => (x[3] + x[6] + x[1]).localeCompare(y[3] + y[6] + y[1], 'es'));
   if (salida.length) { sh.getRange(2, 1, salida.length, salida[0].length).setValues(salida); ponerFormulaEstado_(sh, salida.length); }
@@ -270,11 +271,11 @@ function generarPadron_() {
 // inflar getLastRow() con celdas vacías de un ARRAYFORMULA abierto.
 function ponerFormulaEstado_(sh, n) {
   const c = colLetra_(cabResp_().indexOf('Correo') + 1), ref = H.RESP + '!$' + c + '$2:$' + c;
-  sh.getRange(2, CAB_PADRON.length).setFormula('=ARRAYFORMULA(IF(COUNTIF(' + ref + ',A2:A' + (n + 1) + ')>0,"Respondió","Pendiente"))');
+  sh.getRange(2, CAB_PADRON.length).setFormula(fx_('=ARRAYFORMULA(IF(COUNTIF(' + ref + ',A2:A' + (n + 1) + ')>0,"Respondió","Pendiente"))'));
 }
 function formulaEstadoFila_(sh, r) {
   const c = colLetra_(cabResp_().indexOf('Correo') + 1);
-  sh.getRange(r, CAB_PADRON.length).setFormula('=IF(COUNTIF(' + H.RESP + '!$' + c + '$2:$' + c + ',A' + r + ')>0,"Respondió","Pendiente")');
+  sh.getRange(r, CAB_PADRON.length).setFormula(fx_('=IF(COUNTIF(' + H.RESP + '!$' + c + '$2:$' + c + ',A' + r + ')>0,"Respondió","Pendiente")'));
 }
 
 // Busca un correo en el padrón; si no está, lo busca en vivo en las bases (por si la base se actualizó).
@@ -604,6 +605,7 @@ function crearResumen_() {
   let rs = ss.getSheetByName(H.RESUMEN);
   if (!rs) rs = ss.insertSheet(H.RESUMEN);
   rs.clear();
+  sepFormulas_(rs);
   const C = cabResp_();
   const col = t => { const i = C.findIndex(h => h.indexOf(t) === 0); if (i < 0) throw new Error('Columna no encontrada: ' + t); return colLetra_(i + 1); };
   const R = c => H.RESP + '!$' + c + '$2:$' + c;
@@ -652,7 +654,7 @@ function crearResumen_() {
       '=IFERROR(AVERAGEIFS(' + R(col('RRDDTT 3.')) + ',' + CARR + ',"' + k + '",' + ID + ',' + real + '),"–")'], 'carr');
   });
 
-  rs.getRange(1, 1, rows.length, W).setValues(rows);
+  rs.getRange(1, 1, rows.length, W).setValues(rows.map(r => r.map(v => typeof v === 'string' && v.charAt(0) === '=' ? fx_(v) : v)));
   rs.setColumnWidth(1, 430); rs.setColumnWidths(2, W - 1, 115);
   rs.getRange(1, 1, rows.length, W).setFontFamily('Arial').setFontSize(10).setVerticalAlignment('middle');
   fmt.forEach(f => {
@@ -671,6 +673,23 @@ function crearResumen_() {
 
 /* ═════════════════════════ UTILIDADES ═════════════════════════ */
 function norm_(s) { return String(s === null || s === undefined ? '' : s).trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+// Separador de argumentos de las fórmulas: depende de la configuración regional de la hoja
+// («,» en inglés; «;» en español y otras con coma decimal). Se prueba escribiendo =SUM(2,5)
+// en la celda A1 de una pestaña recién vaciada y se guarda en las propiedades del script.
+function sepFormulas_(sh) {
+  try {
+    const c = sh.getRange(1, 1);
+    for (const s of [',', ';']) {
+      c.setFormula('=SUM(2' + s + '5)'); SpreadsheetApp.flush();
+      if (c.getValue() === 7) { c.clearContent(); PropertiesService.getScriptProperties().setProperty('SEP', s); return s; }
+    }
+    c.clearContent();
+  } catch (e) {}
+  return sep_();
+}
+function sep_() { try { return PropertiesService.getScriptProperties().getProperty('SEP') || ','; } catch (e) { return ','; } }
+// Cambia las comas separadoras por «;» si hace falta (las comas dentro de "texto" no se tocan).
+function fx_(f) { return sep_() === ',' ? f : f.replace(/("[^"]*")|,/g, (m, q) => q || ';'); }
 function colLetra_(n) { let s = ''; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; }
 function buscarFila_(sh, clave) {
   if (!sh || sh.getLastRow() < 1) return 0;
