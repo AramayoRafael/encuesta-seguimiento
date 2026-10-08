@@ -25,7 +25,7 @@ archivo resume todo lo decidido allí. Léelo completo antes de tocar código.
 
 ## Arquitectura
 - **Front:** un solo HTML, tema oscuro futurista (campo estelar en canvas, cuadrícula animada, tarjetas de vidrio con borde cónico giratorio, warp entre pantallas, confeti). Respeta `prefers-reduced-motion`. Probado a 390 px y 1366 px.
-- **Hosting:** GitHub Pages en `AramayoRafael/encuesta-seguimiento` (público, rama `main`, raíz) → https://aramayorafael.github.io/encuesta-seguimiento/ Vercel quedó como opción futura (enlaces de prueba, proxy para ocultar la URL del script); su plan Hobby es para uso no comercial.
+- **Hosting:** GitHub Pages en la organización `UNIFRANZ-BO/encuesta-seguimiento` (público, rama `main`, raíz; trasladado desde AramayoRafael el 08-oct-2026 para que el enlace no lleve el nombre de Rafael) → https://unifranz-bo.github.io/encuesta-seguimiento/ · enlace vigente `?v=3`. Vercel quedó como opción futura (enlaces de prueba, proxy para ocultar la URL del script); su plan Hobby es para uso no comercial.
 - **Backend:** Apps Script **ligado a la hoja de la base de estudiantes**. La hoja en uso es «Copia de Base de datos Estudiantes 1er semestre P2026» (id `1RHwMM_N_dRKXilPvnS87j3fFdWV5_xPO1v3aEMOFqtk`), **propiedad de la cuenta personal aramayorafael@gmail.com** (la original es de la cuenta @unifranz; pestaña de RR. HH. `Base_de_estudiantes`, ~23 000 filas, 13 columnas: sede, modalidad, anho_plan_estudio, carrera, semestre_pertenencia, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, ci, nacionalidad, correo_institucional, celular).
 - **URL del script:** se incrusta en `API_URL_DEFECTO` dentro de `src.html`. Ya incrustada (implementación `AKfycbxHT-22…MBT0`, 07-oct-2026). Sin URL la app corre en **modo de prueba** (acepta cualquier @unifranz con datos ficticios). `?api=<url>` en la dirección permite probar otra URL sin guardarla. Triple toque en «v2.0» (abajo a la derecha) o `?admin=1` abre el panel técnico (ping, fila de prueba, reenviar pendientes).
 
@@ -75,7 +75,7 @@ Bienvenida («13 preguntas») → **Correo** (solo se pide `@unifranz.edu.bo`; s
 - [x] Script v2.0 escrito y probado solo con hoja simulada.
 - [x] Script implementado; ping y validar responden de forma anónima.
 - [x] Repo GitHub creado y Pages activo (07-oct-2026).
-- [x] URL incrustada y publicada (enlace `?v=2`).
+- [x] URL incrustada y publicada. Enlace vigente: https://unifranz-bo.github.io/encuesta-seguimiento/?v=3
 - [ ] Prueba real: ping, fila de prueba, ingreso con un correo real del padrón, anular y volver a responder, borrar pruebas.
 - [ ] Opcional: `clasp` para subir el script sin copiar y pegar; Vercel si se quiere ocultar la URL del script.
 
