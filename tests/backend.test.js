@@ -92,3 +92,7 @@ console.log('prueba',J(post({id:'PRUEBA-XYZ12',correo:'prueba@unifranz.edu.bo',s
 ctx.__answers=['I-2027']; ctx.menuNuevoPeriodo(); console.log('sheets',ss._sheets.map(s=>s.name).join(','),'resp rows',R.getLastRow()-1, 'periodo', ctx.config_().periodo);
 ctx.menuEstado();
 const rs=ss.getSheetByName('RESUMEN'); for(let r=1;r<=14;r++) console.log(r,[1,2,3,4].map(c=>String(rs.get(r,c)).slice(0,90)).join(' || '));
+// tope de filas de prueba
+const pr=i=>JSON.parse(ctx.doPost({postData:{contents:JSON.stringify({action:'guardar',data:Object.assign({},pl,{id:'PRUEBA-TOPE'+i,correo:'prueba@unifranz.edu.bo'})})}}).t);
+const tope=[];for(let i=0;i<8;i++){const r=pr(i);tope.push(r.ok?'ok':r.codigo)}console.log('pruebas',tope.join(','));
+if(!tope.includes('limite_pruebas')){console.error('FALLA: no se aplicó el tope de pruebas');process.exit(1)}

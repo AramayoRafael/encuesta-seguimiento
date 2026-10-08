@@ -1006,7 +1006,7 @@ function jsonp(params, ms = 15000) {
     document.head.appendChild(s);
   });
 }
-const FINALES = ['ya_respondio', 'no_encontrado', 'no_habilitado', 'cerrada'];
+const FINALES = ['ya_respondio', 'no_encontrado', 'no_habilitado', 'cerrada', 'limite_pruebas'];
 async function verificar(id) { try { const j = await jsonp({action:'verificar', id}, 12000); return !!(j && j.ok && j.existe); } catch (e) { return false; } }
 async function enviar(p, log = () => {}) {
   if (!API_OK) throw new Error('sin-url');

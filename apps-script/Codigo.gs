@@ -1,3 +1,4 @@
+/** @OnlyCurrentDoc */  // el script solo puede tocar esta hoja, ningún otro archivo de Drive
 /**
  * ENCUESTA DE SEGUIMIENTO INSTITUCIONAL Y MEJORA CONTINUA · ESTUDIANTES  (v2.0)
  * Backend en Google Apps Script, ligado a la hoja que contiene la base de estudiantes.
@@ -53,6 +54,7 @@ const COLS_BASE = {
   a1: ['primer_apellido', 'apellidos', 'apellido_paterno'], a2: ['segundo_apellido', 'apellido_materno']
 };
 const MAIL_RE = /^[a-z0-9._%+-]+@unifranz\.edu\.bo$/;
+const MAX_PRUEBAS = 5;   // filas PRUEBA- permitidas a la vez en RESPUESTAS (se limpian con «Borrar filas de prueba»)
 
 /* ═════════════════════════════ MENÚ ═════════════════════════════ */
 function onOpen() {
@@ -434,7 +436,10 @@ function guardar_(d) {
     const sh = hojaResp_();
     if (existeId_(id, sh)) return { ok: true, id: id, duplicado: true };
     let fila = null;
-    if (!prueba) {
+    if (prueba) {     // las filas PRUEBA- no se validan: se limitan para que nadie pueda llenar la hoja con ellas
+      const ids = sh.getLastRow() > 1 ? sh.getRange(2, 2, sh.getLastRow() - 1, 1).getValues() : [];
+      if (ids.filter(r => String(r[0]).indexOf('PRUEBA-') === 0).length >= MAX_PRUEBAS) return { ok: false, codigo: 'limite_pruebas' };
+    } else {
       const cfg = config_();
       if (!abierta_(cfg)) return { ok: false, codigo: 'cerrada' };
       const r = buscarEstudiante_(correo, cfg);

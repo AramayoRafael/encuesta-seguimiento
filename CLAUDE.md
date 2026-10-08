@@ -31,7 +31,8 @@ archivo resume todo lo decidido allí. Léelo completo antes de tocar código.
 
 ### Lecciones técnicas (vienen de la Ficha 360, no repetir errores)
 - GET por **JSONP** (`&callback=`). POST con `fetch` `text/plain` → si falla, `no-cors` + `action=verificar` (3 intentos) → plan C `action=guardar` por JSONP. Si todo falla, la respuesta queda en cola local (`encsi_cola1`) y se reenvía sola al volver a abrir.
-- Errores definitivos del servidor (`ya_respondio`, `no_encontrado`, `no_habilitado`, `cerrada`) **no** se encolan.
+- Errores definitivos del servidor (`ya_respondio`, `no_encontrado`, `no_habilitado`, `cerrada`, `limite_pruebas`) **no** se encolan.
+- Seguridad: `@OnlyCurrentDoc` (el script solo accede a su hoja) y tope `MAX_PRUEBAS = 5` filas `PRUEBA-` (no se validan, así que se limitan). La hoja solo está compartida con su dueño; no darle edición a terceros (un editor puede cambiar el script, que corre como Rafael).
 - Implementación: acceso **«Cualquier persona»** a secas. «Cualquier persona con cuenta de Google» rompe las llamadas anónimas. Como la hoja es de una cuenta Workspace, verificar que el dominio permita esa opción; si no, copiar la base a la cuenta personal de Rafael.
 - Para actualizar el script: **Administrar implementaciones → ✏️ → Nueva versión**. Nunca «Nueva implementación» (cambia la URL). Con clasp: `clasp push` + `clasp deploy -i <deploymentId>`.
 - La hoja está en configuración regional española: las fórmulas usan `;`. El script lo detecta solo (`sepFormulas_` prueba `=SUM(2,5)` y guarda `SEP` en las propiedades del script; `fx_` convierte). Toda fórmula nueva debe pasar por `fx_`. Prueba: `SEP=";" node tests/backend.test.js`.
