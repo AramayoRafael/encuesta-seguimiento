@@ -101,12 +101,12 @@ function crearConfig_() {
     ['Fecha de apertura', '', 'Opcional. Antes de esta fecha la encuesta aparece cerrada.'],
     ['Fecha de cierre', '', 'Opcional. Después de esta fecha (incluido el día completo) aparece cerrada.'],
     ['Periodo', 'II-2026', 'Nombre del periodo. Se usa al archivar respuestas en «Nuevo periodo».'],
-    ['Pestañas de origen', primeraBase_(), 'Pestañas con bases de RR. HH., separadas por coma. AGREGADOS se incluye siempre.'],
-    ['Planes habilitados', '2026', 'Ej.: 2026  ·  2024, 2026  ·  vacío = todos'],
-    ['Semestres habilitados', '', 'Ej.: 1  ·  1, 2  ·  vacío = todos'],
-    ['Sedes habilitadas', '', 'Códigos: LPZ, EAT, CBB, SCZ  ·  vacío = todas'],
+    ['Pestañas de origen', primeraBase_(), 'Pestañas con bases de RR. HH., separadas por punto y coma. AGREGADOS se incluye siempre.'],
+    ['Planes habilitados', '2026', 'Ej.: 2026  ·  2017; 2026  ·  vacío = todos'],
+    ['Semestres habilitados', '', 'Ej.: 1  ·  1; 2  ·  vacío = todos'],
+    ['Sedes habilitadas', '', 'Códigos: LPZ; EAT; CBB; SCZ  ·  vacío = todas'],
     ['Modalidades habilitadas', '', 'Ej.: PRESENCIAL  ·  vacío = todas'],
-    ['Carreras habilitadas', '', 'Códigos, ej.: NGE, ICO  ·  vacío = todas'],
+    ['Carreras habilitadas', '', 'Códigos, ej.: NGE; ICO  ·  vacío = todas'],
     ['Mensaje de encuesta cerrada', 'La encuesta no está disponible en este momento.', 'Texto que ve el estudiante cuando está cerrada.']
   ];
   if (!sh) {
