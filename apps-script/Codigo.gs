@@ -39,7 +39,8 @@ const CARRERAS_SUGERIDAS = [
   ['ARQ', 'Arquitectura'], ['BYF', 'Bioquímica y Farmacia'], ['CPU', 'Contaduría Pública'], ['DER', 'Derecho'],
   ['DGP', 'Diseño Gráfico y Producción Crossmedia'], ['ENF', 'Enfermería'], ['ICO', 'Ingeniería Comercial'],
   ['IEC', 'Ingeniería Económica'], ['IEF', 'Ingeniería Económica y Financiera'], ['MED', 'Medicina'], ['ODO', 'Odontología'],
-  ['PSI', 'Psicología'], ['PYM', 'Publicidad y Marketing'], ['SIS', 'Ingeniería de Sistemas']
+  ['PSI', 'Psicología'], ['PYM', 'Publicidad y Marketing'], ['SIS', 'Ingeniería de Sistemas'],
+  ['CPD', 'Comunicación y Periodismo Digital'], ['PER', 'Periodismo'], ['THO', 'Turismo y Hotelería'], ['GAS', 'Gastronomía y Artes Culinarias']
 ];
 // Columnas que se buscan en las bases de RR. HH. (por nombre, en cualquier orden).
 const COLS_BASE = {
