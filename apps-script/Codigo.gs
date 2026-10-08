@@ -34,7 +34,8 @@ const CAT_TEC = [
 ];
 // Nombres sugeridos. La pestaña CARRERAS manda: ahí se corrigen y se agregan códigos nuevos.
 const CARRERAS_SUGERIDAS = [
-  ['NGE', 'Negocios y Gestión Empresarial'], ['ADM', 'Administración de Empresas'], ['AHT', 'Administración Hotelera y Turismo'],
+  ['NGE', 'Negocios y Gestión Empresarial'], ['AFC', 'Auditoría Financiera y Control de Gestión'], ['DDP', 'Diseño Digital y Producción Transmedia'],
+  ['ADM', 'Administración de Empresas'], ['AHT', 'Administración Hotelera y Turismo'],
   ['ARQ', 'Arquitectura'], ['BYF', 'Bioquímica y Farmacia'], ['CPU', 'Contaduría Pública'], ['DER', 'Derecho'],
   ['DGP', 'Diseño Gráfico y Producción Crossmedia'], ['ENF', 'Enfermería'], ['ICO', 'Ingeniería Comercial'],
   ['IEC', 'Ingeniería Económica'], ['IEF', 'Ingeniería Económica y Financiera'], ['MED', 'Medicina'], ['ODO', 'Odontología'],
